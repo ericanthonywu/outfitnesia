@@ -22,7 +22,7 @@ func Login(c echo.Context) (err error) {
 	if request.Password == "" || request.Username == "" {
 		return echo.ErrBadRequest
 	}
-	User := model.GetDB().C("user")
+	User := model.UserC
 
 	if err = User.Find(bson.M{
 		"username": request.Username,
@@ -62,7 +62,7 @@ func Login(c echo.Context) (err error) {
 }
 
 func Migrate(c echo.Context) (err error) {
-	collection := *model.DB.C("user")
+	collection := model.UserC
 
 	bcryptCost := rand.Intn(bcrypt.MaxCost-bcrypt.MinCost) + bcrypt.MinCost
 	hashed, err := bcrypt.GenerateFromPassword([]byte("admin"), bcryptCost)

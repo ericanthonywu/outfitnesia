@@ -6,21 +6,18 @@ import (
 	"os"
 )
 
-var DB *mgo.Database
+var (
+	UserC *mgo.Collection
+)
 
 func InitDB() {
 	session, err := mgo.Dial(os.Getenv("MONGOURL"))
 	if err != nil {
 		panic(err)
 	}
-	DB = session.DB(os.Getenv("DB"))
-}
+	DB := session.DB(os.Getenv("DB"))
 
-func GetDB() *mgo.Database {
-	if DB == nil {
-		InitDB()
-	}
-	return DB
+	UserC = DB.C("user")
 }
 
 type User struct {
