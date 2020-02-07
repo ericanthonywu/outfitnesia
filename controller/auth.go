@@ -22,9 +22,8 @@ func Login(c echo.Context) (err error) {
 	if request.Password == "" || request.Username == "" {
 		return echo.ErrBadRequest
 	}
-	User := model.UserC
 
-	if err = User.Find(bson.M{
+	if err = model.UserC.Find(bson.M{
 		"username": request.Username,
 	}).Select(bson.M{
 		"id":       1,
