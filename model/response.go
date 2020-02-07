@@ -1,6 +1,6 @@
 package model
 
-import "gopkg.in/mgo.v2/bson"
+import "github.com/globalsign/mgo/bson"
 
 type LoginResponse struct {
 	Token    string        `json:"token"`

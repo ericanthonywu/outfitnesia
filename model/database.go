@@ -1,8 +1,8 @@
 package model
 
 import (
-	"gopkg.in/mgo.v2"
-	"gopkg.in/mgo.v2/bson"
+	"github.com/globalsign/mgo"
+	"github.com/globalsign/mgo/bson"
 	"os"
 )
 
@@ -17,16 +17,16 @@ func InitDB() {
 }
 
 func GetDB() *mgo.Database {
-	if DB == new(mgo.Database) {
+	if DB == nil {
 		InitDB()
 	}
 	return DB
 }
 
 type User struct {
-	Id bson.ObjectId `json:"id" bson:"_id,omitempty"`
-	Username string `json:"username"`
-	Password []byte `json:"password"`
+	Id       bson.ObjectId `json:"id" bson:"_id,omitempty"`
+	Username string        `json:"username"`
+	Password []byte        `json:"password"`
 }
 
 type Response struct {

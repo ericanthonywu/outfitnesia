@@ -2,9 +2,9 @@ package controller
 
 import (
 	"github.com/dgrijalva/jwt-go"
+	"github.com/globalsign/mgo/bson"
 	"github.com/labstack/echo/v4"
 	"golang.org/x/crypto/bcrypt"
-	"gopkg.in/mgo.v2/bson"
 	"math/rand"
 	"net/http"
 	"os"
