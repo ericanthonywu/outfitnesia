@@ -12,12 +12,11 @@ import (
 )
 
 func main() {
+	model.InitDB()
 	e := echo.New()
 	if err := godotenv.Load(".env"); err != nil {
 		fmt.Println(err)
 	}
-
-	model.InitDB()
 
 	e.Use(
 		middleware.CORSWithConfig(middleware.CORSConfig{
@@ -26,6 +25,7 @@ func main() {
 		middleware.Recover(),   //recover server on production if it's stop
 		middleware.Logger(),    //logging
 		middleware.RequestID(), //add request ID in every route
+		middleware.Secure(),
 	)
 
 	e.HTTPErrorHandler = func(err error, c echo.Context) {
@@ -38,14 +38,22 @@ func main() {
 		if report.Message == "not found" {
 			_ = c.JSON(http.StatusNotFound, model.ErrorResponse{Message: report.Message})
 		} else {
-			_ = c.JSON(report.Code, model.ErrorResponse{Message: report.Message})
+			_ = c.JSON(report.Code, model.ErrorResponse{report})
 		}
 	}
 
-	e.GET("/migrate", controller.Migrate)
+	e.GET("/migrateAdmin", controller.Migrate)
 
-	user := e.Group("/user")
-	user.POST("/login", controller.Login)
+	admin := e.Group("/admin")
+	admin.POST("/login", controller.LoginAdmin)
+
+	admin.Use(middleware.JWTWithConfig(middleware.JWTConfig{
+		SigningKey:  []byte(os.Getenv("JWTSECRETTOKEN")),
+		TokenLookup: "header:token",
+	}))
+
+	admin.POST("/kategori", controller.CreateKategori)
+	admin.POST("/jenis", controller.CreateJenis)
 
 	e.Logger.Fatal(e.Start(":" + os.Getenv("PORT")))
 }

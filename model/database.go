@@ -7,7 +7,8 @@ import (
 )
 
 var (
-	UserC *mgo.Collection
+	UserC    *mgo.Collection
+	KategoriC *mgo.Collection
 )
 
 func InitDB() {
@@ -18,6 +19,7 @@ func InitDB() {
 	DB := session.DB(os.Getenv("DB"))
 
 	UserC = DB.C("user")
+	KategoriC = DB.C("kategori")
 }
 
 type User struct {
@@ -26,6 +28,15 @@ type User struct {
 	Password []byte        `json:"password"`
 }
 
-type Response struct {
-	Message string `json:"message"`
+type Kategori struct {
+	Id     bson.ObjectId `json:"id" bson:"_id,omitempty"`
+	Label  string        `json:"label"`
+	Gambar string        `json:"gambar"`
+	Jenis  []Jenis       `json:"jenis"`
+}
+
+type Jenis struct {
+	Id     bson.ObjectId `json:"id" bson:"_id,omitempty"`
+	Label  string        `json:"label"`
+	Gambar string        `json:"gambar"`
 }

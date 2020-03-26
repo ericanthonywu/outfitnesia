@@ -10,7 +10,7 @@ import (
 	"outfitnesia/model"
 )
 
-func Login(c echo.Context) (err error) {
+func LoginAdmin(c echo.Context) (err error) {
 	request := new(model.Login)
 	user := new(model.User)
 
@@ -22,7 +22,6 @@ func Login(c echo.Context) (err error) {
 		return echo.ErrBadRequest
 	}
 
-	//otomatis bos awkowko ok
 	if err = model.UserC.Find(bson.M{
 		"username": request.Username,
 	}).Select(bson.M{
@@ -36,11 +35,12 @@ func Login(c echo.Context) (err error) {
 	if user == new(model.User) {
 		return echo.ErrNotFound
 	}
+
 	if err = bcrypt.CompareHashAndPassword(user.Password, []byte(request.Password)); err != nil {
 		return echo.ErrForbidden
 	}
-	token := jwt.New(jwt.SigningMethodHS256)
 
+	token := jwt.New(jwt.SigningMethodHS256)
 	claims := token.Claims.(jwt.MapClaims)
 	claims["username"] = user.Username
 	claims["id"] = user.Id
@@ -60,14 +60,13 @@ func Login(c echo.Context) (err error) {
 }
 
 func Migrate(c echo.Context) (err error) {
-	collection := model.UserC
 
 	hashed, err := bcrypt.GenerateFromPassword([]byte("admin"), bcrypt.DefaultCost)
 	if err != nil {
 		return err
 	}
 
-	if err = collection.Insert(bson.M{
+	if err = model.UserC.Insert(bson.M{
 		"username": "superadmin",
 		"password": hashed,
 	}); err != nil {

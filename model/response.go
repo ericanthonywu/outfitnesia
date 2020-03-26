@@ -11,3 +11,10 @@ type LoginResponse struct {
 type ErrorResponse struct {
 	Message interface{} `json:"message"`
 }
+
+type Response struct {
+	Message string `json:"message"`
+}
+type EmptyResponse struct {
+
+}
