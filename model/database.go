@@ -16,6 +16,7 @@ func InitDB() {
 	if err != nil {
 		panic(err)
 	}
+
 	DB := session.DB(os.Getenv("DB"))
 
 	UserC = DB.C("user")

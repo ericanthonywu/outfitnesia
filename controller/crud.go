@@ -1,8 +1,9 @@
 package controller
 
 import (
+	"fmt"
+	"github.com/globalsign/mgo/bson"
 	"github.com/labstack/echo/v4"
-	"gopkg.in/mgo.v2/bson"
 	"net/http"
 	"outfitnesia/model"
 )
@@ -18,10 +19,13 @@ func CreateKategori(c echo.Context) error {
 	if err != nil {
 		return err
 	}
+
+	fmt.Println(label)
+
 	if err := model.KategoriC.Insert(bson.M{
 		"label":  label,
 		"gambar": filename,
-		"jenis":  nil,
+		"jenis":  []model.Jenis{},
 	}); err != nil {
 		return err
 	}
@@ -32,6 +36,7 @@ func CreateKategori(c echo.Context) error {
 func CreateJenis(c echo.Context) error {
 	label := c.FormValue("label")
 	kategori := c.FormValue("kategori")
+
 	gambar, err := c.FormFile("gambar")
 	if err != nil {
 		return err

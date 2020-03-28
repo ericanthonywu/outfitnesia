@@ -22,10 +22,10 @@ func main() {
 		middleware.CORSWithConfig(middleware.CORSConfig{
 			AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept},
 		}),
-		middleware.Recover(),   //recover server on production if it's stop
-		middleware.Logger(),    //logging
-		middleware.RequestID(), //add request ID in every route
-		middleware.Secure(),
+		middleware.Recover(),   //  recover server on production if it's stop
+		middleware.Logger(),    //  logging
+		middleware.RequestID(), //  add request ID in every route
+		middleware.Secure(),    //  secure
 	)
 
 	e.HTTPErrorHandler = func(err error, c echo.Context) {
@@ -35,6 +35,7 @@ func main() {
 		}
 
 		c.Logger().Error(report)
+
 		if report.Message == "not found" {
 			_ = c.JSON(http.StatusNotFound, model.ErrorResponse{Message: report.Message})
 		} else {
