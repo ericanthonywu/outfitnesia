@@ -17,13 +17,14 @@ func InsertImage(header *multipart.FileHeader, dest string) (string, error) {
 
 	randoms := random.New()
 
-	filename := time.Now().Format(time.RFC3339Nano) + randoms.String(10, random.Alphanumeric) + header.Filename
+	filename := time.Now().Format(time.RFC3339Nano) + randoms.String(30, random.Alphanumeric) + header.Filename
 
 	dst, err := os.Create(dest + filename)
 	if err != nil {
 		return "", err
 	}
 	defer dst.Close()
+
 
 	if _, err = io.Copy(dst, src); err != nil {
 		return "", err

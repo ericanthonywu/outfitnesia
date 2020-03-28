@@ -66,9 +66,9 @@ func Migrate(c echo.Context) (err error) {
 		return err
 	}
 
-	if err = model.UserC.Insert(bson.M{
-		"username": "superadmin",
-		"password": hashed,
+	if err = model.UserC.Insert(model.User{
+		Username: "superadmin",
+		Password: hashed,
 	}); err != nil {
 		return err
 	}

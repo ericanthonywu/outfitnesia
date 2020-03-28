@@ -15,6 +15,12 @@ type ErrorResponse struct {
 type Response struct {
 	Message string `json:"message"`
 }
+
+type FileResponse struct {
+	Data interface{} `json:"data"`
+	FilePrefix string `json:"file_prefix"`
+}
+
 type EmptyResponse struct {
 
 }
