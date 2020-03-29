@@ -41,24 +41,38 @@ func InitDB() {
 	KategoriC = DB.C("kategori")
 }
 
-type User struct {
-	Id        bson.ObjectId `json:"id" bson:"_id,omitempty"`
-	Username  string        `json:"username"`
-	Password  []byte        `json:"password"`
-	CreatedAt time.Time     `json:"created_at"`
+type (
+	User struct {
+		Id        bson.ObjectId `json:"id" bson:"_id,omitempty"`
+		Username  string        `json:"username"`
+		Password  []byte        `json:"password"`
+		CreatedAt time.Time     `json:"created_at"`
+	}
+
+	Kategori struct {
+		Id        bson.ObjectId `json:"id" bson:"_id,omitempty"`
+		Label     string        `json:"label"`
+		Gambar    string        `json:"gambar"`
+		Jenis     []Jenis       `json:"jenis"`
+		CreatedAt time.Time     `json:"created_at"`
+	}
+
+	Jenis struct {
+		Id        bson.ObjectId `json:"id" bson:"_id,omitempty"`
+		Label     string        `json:"label"`
+		Gambar    string        `json:"gambar"`
+		CreatedAt time.Time     `json:"created_at"`
+	}
+)
+
+func NewJenis() *Jenis {
+	return &Jenis{CreatedAt: time.Now()}
 }
 
-type Kategori struct {
-	Id        bson.ObjectId `json:"id" bson:"_id,omitempty"`
-	Label     string        `json:"label"`
-	Gambar    string        `json:"gambar"`
-	Jenis     []Jenis       `json:"jenis"`
-	CreatedAt time.Time     `json:"created_at"`
+func NewKategori() *Kategori {
+	return &Kategori{CreatedAt: time.Now()}
 }
 
-type Jenis struct {
-	Id        bson.ObjectId `json:"id" bson:"_id,omitempty"`
-	Label     string        `json:"label"`
-	Gambar    string        `json:"gambar"`
-	CreatedAt time.Time     `json:"created_at"`
+func NewUser() *User {
+	return &User{CreatedAt: time.Now()}
 }
