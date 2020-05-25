@@ -9,7 +9,11 @@ import (
 
 var (
 	UserC     *mgo.Collection
+	AdminC    *mgo.Collection
+	TokoC     *mgo.Collection
 	KategoriC *mgo.Collection
+	BannerC   *mgo.Collection
+	ProdukC   *mgo.Collection
 )
 
 func InitDB() {
@@ -38,15 +42,58 @@ func InitDB() {
 	//}
 
 	UserC = DB.C("user")
+	AdminC = DB.C("admin")
+	TokoC = DB.C("toko")
 	KategoriC = DB.C("kategori")
+	BannerC = DB.C("banner")
+	ProdukC = DB.C("produk")
 }
 
 type (
+	Admin struct {
+		Id        bson.ObjectId `json:"id" bson:"_id,omitempty"`
+		Username  string        `json:"username"`
+		Password  []byte        `json:"password"`
+		CreatedAt time.Time     `json:"created_at"`
+	}
+
 	User struct {
 		Id        bson.ObjectId `json:"id" bson:"_id,omitempty"`
 		Username  string        `json:"username"`
 		Password  []byte        `json:"password"`
 		CreatedAt time.Time     `json:"created_at"`
+	}
+
+	Banner struct {
+		Id        bson.ObjectId `json:"id" bson:"_id,omitempty"`
+		Order     uint8         `json:"order"`
+		Nama      string        `json:"nama"`
+		CreatedAt time.Time     `json:"created_at"`
+	}
+
+	Toko struct {
+		Id         bson.ObjectId   `json:"id" bson:"_id,omitempty"`
+		Username   string          `json:"username"`
+		Password   []byte          `json:"password"`
+		NamaToko   string          `json:"nama_toko"`
+		Merek      string          `json:"merek"`
+		Deskripsi  string          `json:"deskripsi"`
+		Follower   []bson.ObjectId `json:"follower"`
+		Email      string          `json:"email"`
+		Instagram  string          `json:"instagram"`
+		Whatsapp   string          `json:"whatsapp"`
+		Website    string          `json:"website"`
+		Alamat     string          `json:"alamat"`
+		FotoProfil string          `json:"foto_profil"`
+		BukaLapak  string          `json:"buka_lapak"`
+		Shopee     string          `json:"shopee"`
+		Tokopedia  string          `json:"tokopedia"`
+		FotoKTP    string          `json:"foto_ktp"`
+		CreatedAt  time.Time       `json:"created_at"`
+	}
+	Follower struct {
+		Id   bson.ObjectId `json:"id" bson:"_id,omitempty"`
+		User bson.ObjectId `json:"user"`
 	}
 
 	Kategori struct {
@@ -63,7 +110,32 @@ type (
 		Gambar    string        `json:"gambar"`
 		CreatedAt time.Time     `json:"created_at"`
 	}
+
+	Produk struct {
+		Id         bson.ObjectId `json:"id" bson:"_id,omitempty"`
+		NamaProduk string        `json:"nama_produk"`
+		Kategori   bson.ObjectId `json:"kategori"`
+		Jenis      bson.ObjectId `json:"jenis"`
+		Bahan      string        `json:"bahan"`
+		Warna      string        `json:"warna"`
+		Deskripsi  string        `json:"deskripsi"`
+		FotoProduk []string      `json:"foto_produk"`
+		ShowStatus uint8         `json:"show_status"`
+		CreatedAt  time.Time     `json:"created_at"`
+	}
 )
+
+func NewProduk() *Produk {
+	return &Produk{CreatedAt: time.Now(), ShowStatus: 1}
+}
+
+func NewBanner() *Banner {
+	return &Banner{CreatedAt: time.Now()}
+}
+
+func NewToko() *Toko {
+	return &Toko{CreatedAt: time.Now()}
+}
 
 func NewJenis() *Jenis {
 	return &Jenis{CreatedAt: time.Now()}

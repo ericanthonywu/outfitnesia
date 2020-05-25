@@ -21,4 +21,5 @@ type (
 	EmptyResponse struct {
 
 	}
+	CustomResponse map[string]interface{}
 )

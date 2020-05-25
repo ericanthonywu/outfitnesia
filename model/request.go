@@ -1,16 +1,30 @@
 package model
 
 type (
-	Login struct {
+	LoginAdmin struct {
 		Username string `json:"username"`
 		Password string `json:"password"`
 	}
-	DefaultShowData struct {
-		Offset int `json:"offset"`
-		Limit  int `json:"limit"`
+	RegisterUser struct {
+		Username string `json:"username"`
+		Password string `json:"password"`
 	}
-	DeleteDefault struct {
-		Id string `json:"id"`
+	LoginUser struct {
+		Username string `json:"username"`
+		Password string `json:"password"`
+	}
+	LoginToko struct {
+		Username string `json:"username"`
+		Password string `json:"password"`
+	}
+	RegisterToko struct {
+		Merek string `json:"merek"`
+		Password string `json:"password"`
+		Instagram string `json:"instagram"`
+		Line string `json:"line"`
+		Whatsapp string `json:"whatsapp"`
+		Alamat string `json:"alamat"`
+		FotoKTP string `json:"foto_ktp"`
 	}
 	JenisShowData struct {
 		DefaultShowData
@@ -18,5 +32,12 @@ type (
 	}
 	JenisKategoriUpdateWithoutFile struct {
 		Label string `json:"label"`
+		Id    string `json:"id"`
+	}
+	GetProfileToko struct {
+		Id string `json:"id"`
+	}
+	ToggleShowProduk struct {
+		ShowStatus uint8 `json:"show_status"`
 	}
 )

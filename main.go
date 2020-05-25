@@ -48,6 +48,10 @@ func main() {
 
 	e.GET("/migrateAdmin", controller.Migrate)
 
+	user := e.Group("user")
+	user.POST("/register", controller.RegisterUser)
+	user.POST("/login", controller.LoginUser)
+
 	admin := e.Group("/admin")
 	admin.POST("/login", controller.LoginAdmin)
 
@@ -59,12 +63,17 @@ func main() {
 	admin.POST("/kategori",controller.ShowKategori)
 	admin.POST("/add-kategori", controller.CreateKategori)
 	admin.PUT("/update-kategori", controller.UpdateKategori)
-	admin.DELETE("/delete-kategori", controller.DeleteKategori)
+	admin.PUT("/update-gambar-kategori", controller.UpdateKategori)
+	admin.POST("/delete-kategori", controller.DeleteKategori)
 
 	admin.POST("/jenis", controller.ShowJenis)
 	admin.POST("/add-jenis", controller.CreateJenis)
-	admin.PUT("/update-jenis", controller.UpdateJenis)
-	admin.DELETE("/delete-jenis", controller.DeleteJenis)
+	admin.PUT("/update-gambar-jenis", controller.UpdateJenis)
+	admin.POST("/delete-jenis", controller.DeleteJenis)
+
+	toko := e.Group("toko")
+	toko.POST("/register", controller.RegisterToko)
+	toko.POST("/login", controller.LoginToko)
 
 	e.Logger.Fatal(e.Start(":" + os.Getenv("PORT")))
 }

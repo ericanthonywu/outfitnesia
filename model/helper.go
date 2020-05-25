@@ -25,10 +25,21 @@ func InsertImage(header *multipart.FileHeader, dest string) (string, error) {
 	}
 	defer dst.Close()
 
-
 	if _, err = io.Copy(dst, src); err != nil {
 		return "", err
 	}
 
 	return filename, nil
 }
+
+// declare default type
+type (
+	DefaultShowData struct {
+		Offset int `json:"offset"`
+		Limit  int `json:"limit"`
+	}
+
+	DeleteDefault struct {
+		Id string `json:"id"`
+	}
+)
